@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.example.newsapp.local_db.NewsPost" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/artist_item_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:layout_margin="4dp"
+        >
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+                <TextView
+                 android:id="@+id/creator"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="2dp"
+                 android:layout_marginTop="5dp"
+                 android:textColor="#2979FF"
+                 android:fontFamily="@font/quicksand_medium"
+                 android:text="@{model.creator}" />
+
+                <TextView
+                    android:id="@+id/news_title"
+                    android:layout_marginTop="5dp"
+                    android:text="@{model.title}"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/creator"
+                    />
+                <TextView
+                    android:id="@+id/news_pub_date"
+                    android:layout_marginTop="5dp"
+                    app:setdate="@{model.pubDate}"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/news_title"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>
