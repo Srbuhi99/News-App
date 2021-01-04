@@ -8,10 +8,12 @@ import com.example.newsapp.repository.MainRepository
 import com.example.newsapp.util.Result
 import com.example.newsapp.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
+import org.koin.core.component.inject
+import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NewsViewModel(application: Application): AndroidViewModel(application){
+class NewsViewModel(application: Application,var  repo: MainRepository): AndroidViewModel(application){
 
     private var prefHelper = SharedPreferencesHelper(getApplication())
     private var refreshTime = 5 * 60 * 1000 * 1000 * 1000L
@@ -20,11 +22,11 @@ class NewsViewModel(application: Application): AndroidViewModel(application){
 
     var postLiveData: MutableLiveData<ArrayList<NewsPost>> = MutableLiveData()
     var loadTestData: MutableLiveData<NewsPost> = MutableLiveData()
-    private var repos: MainRepository? = null
+
 
    init {
        viewModelScope.launch {
-         repos = MainRepository(application)
+         repo = MainRepository(application)
        }
    }
 
@@ -40,7 +42,7 @@ class NewsViewModel(application: Application): AndroidViewModel(application){
 
     private fun fetchFromDatabase() {
         viewModelScope.launch {
-            val news = repos!!.getData()
+            val news = repo!!.getData()
             newsRetrieved(news as ArrayList<NewsPost>)
         }
     }
@@ -59,17 +61,16 @@ class NewsViewModel(application: Application): AndroidViewModel(application){
 
     fun fetchFromRemote() {
      viewModelScope.launch {
-        funstoreNewsLocally(repos!!.getAllNews())
+        funstoreNewsLocally(repo.getAllNews())
 
      }
     }
 
    private fun  funstoreNewsLocally(result: Result<HabrFeed>){
-       repos = MainRepository(getApplication())
-       repos!!.deleteAllNews()
+       repo.deleteAllNews()
                when (result) {
                    is Result.Success -> {
-                       repos!!.insertFavoriteList(result.data.posts)
+                       repo.insertFavoriteList(result.data.posts)
                        newsRetrieved(result.data.posts as ArrayList<NewsPost>)
                    }
    }
@@ -87,13 +88,13 @@ class NewsViewModel(application: Application): AndroidViewModel(application){
 
     fun getdata(){
         viewModelScope.launch {
-            postLiveData.value = repos!!.getData() as ArrayList<NewsPost>
+            postLiveData.value = repo!!.getData() as ArrayList<NewsPost>
         }
     }
 
     fun loadData(title: String){
         viewModelScope.launch {
-            loadTestData.value = repos!!.getData(title)
+            loadTestData.value = repo!!.getData(title)
         }
     }
 

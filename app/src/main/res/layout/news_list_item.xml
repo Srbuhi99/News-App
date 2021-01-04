@@ -6,6 +6,10 @@
         <variable
             name="model"
             type="com.example.newsapp.local_db.NewsPost" />
+
+        <variable
+            name="listener"
+            type="com.example.newsapp.util.ItemClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -14,6 +18,7 @@
         android:layout_height="wrap_content"
         android:elevation="8dp"
         android:layout_margin="4dp"
+        android:onClick="@{listener::onItemClickListener}"
         >
 
     <RelativeLayout
@@ -51,6 +56,13 @@
                     android:layout_below="@+id/news_title"
                     android:layout_alignParentRight="true"
                     />
+               <TextView
+                   android:id="@+id/description"
+                   android:text="@{model.description}"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:visibility="gone"
+                   />
 
             </RelativeLayout>
     </androidx.cardview.widget.CardView>

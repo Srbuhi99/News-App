@@ -19,6 +19,7 @@ buildscript {
         okhttpVersion = '2.7.5'
         gsonVersion = '2.8.6'
         okhttpintersepVersion = '4.2.2'
+        jsoup = '1.10.2'
 
         // testing
         junitVersion = '4.13.1'
